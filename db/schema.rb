@@ -10,9 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_12_082725) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_17_090943) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "frames", force: :cascade do |t|
+    t.string "name"
+    t.integer "width"
+    t.integer "height"
+    t.string "content"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "pad_id", null: false
+    t.index ["pad_id"], name: "index_frames_on_pad_id"
+    t.index ["user_id"], name: "index_frames_on_user_id"
+  end
+
+  create_table "pads", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "frame_count", default: 0
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_pads_on_user_id"
+  end
 
   create_table "registrations", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -34,4 +56,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_12_082725) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "frames", "pads"
+  add_foreign_key "frames", "users"
+  add_foreign_key "pads", "users"
 end

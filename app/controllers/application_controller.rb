@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
-    # before_action :set_csrf_cookie
-    include ActionController::Cookies
-    include ActionController::RequestForgeryProtection
+    #   
+    # include ActionController::Cookies
+    # include ActionController::RequestForgeryProtection
   
     # protect_from_forgery with: :exception
   
@@ -17,7 +17,9 @@ class ApplicationController < ActionController::API
 
   def verify_session
     unless session[:user_id] && current_user
-      render json: {message: "You are not authorized to access this resource. Please log in."}, status: :unauthorized
+      render json:
+        {message: "You are not authorized to access this resource. Please log in."},
+        status: :unauthorized
     end
   end
 

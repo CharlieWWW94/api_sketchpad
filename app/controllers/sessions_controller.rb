@@ -10,7 +10,9 @@ class SessionsController < ApplicationController
       session[:user_id] = @user.id
       render json: @user, status: :ok
     else
-      render json: {message: "Login failed. Check your username and password"}, status: :unprocessable_entity
+      render json: 
+      {message: "Login failed. Check your username and password"},
+      status: :unprocessable_entity
     end
   end
 
