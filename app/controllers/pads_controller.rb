@@ -1,11 +1,10 @@
 class PadsController < ApplicationController
   before_action :verify_session
+  before_action :all_pads, only: %i[ index ]
   before_action :set_pad, only: %i[ show update destroy ]
 
   # GET /pads
   def index
-    @pads = Pad.all
-
     render json: @pads
   end
 
@@ -45,8 +44,12 @@ class PadsController < ApplicationController
       @pad = Pad.find(params[:id])
     end
 
+    def all_pads
+      @pads = current_user.pads.includes(:frames)
+    end
+
     # Only allow a list of trusted parameters through.
     def pad_params
-      params.fetch(:pad, {})
+      params.require(:pad).permit(:name)
     end
 end
