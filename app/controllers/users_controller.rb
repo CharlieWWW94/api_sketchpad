@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
   before_action :verify_session
+  load_and_authorize_resource
   # protect_from_forgery with: :exception
 
   # GET /users
   def index
     @users = User.all
-
-    render json: current_user
+    render json: @users
   end
 
   # GET /users/1

@@ -1,6 +1,5 @@
 class User < ApplicationRecord
   ROLES = %w{ client admin }
-  
   has_secure_password
   validates :username, uniqueness: true
   validates :role, inclusion: { in: ROLES  }

@@ -16,7 +16,7 @@ class FramesController < ApplicationController
 
   # POST /frames
   def create
-    @frame = Frame.new(frame_params)
+    @frame = current_user.frames.new(frame_params)
 
     if @frame.save
       render json: @frame, status: :created, location: @frame
@@ -47,6 +47,6 @@ class FramesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def frame_params
-      params.fetch(:frame, {})
+      params.require(:frame).permit(:name, :width, :height, :content, :pad_id)
     end
 end

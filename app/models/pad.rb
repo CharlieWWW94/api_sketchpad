@@ -1,5 +1,5 @@
 class Pad < ApplicationRecord
   belongs_to :user
-  has_many :frames
-  validates [:name, :user_id], unique: true
+  has_many :frames, dependent: :destroy
+  validates :name, uniqueness: { scope: :user_id }
 end

@@ -51,3 +51,5 @@ gem "bcrypt", "~> 3.1"
 gem "rack-cors", "~> 2.0"
 
 gem "cancancan", "~> 3.5"
+
+gem "jsonapi-serializer", "~> 2.2"

@@ -1,11 +1,10 @@
 class PadsController < ApplicationController
   before_action :verify_session
-  before_action :all_pads, only: %i[ index ]
   before_action :set_pad, only: %i[ show update destroy ]
 
   # GET /pads
   def index
-    render json: @pads
+      render json:  all_pads
   end
 
   # GET /pads/1
@@ -15,7 +14,7 @@ class PadsController < ApplicationController
 
   # POST /pads
   def create
-    @pad = Pad.new(pad_params)
+    @pad = current_user.pads.new(pad_params)
 
     if @pad.save
       render json: @pad, status: :created, location: @pad
@@ -45,7 +44,14 @@ class PadsController < ApplicationController
     end
 
     def all_pads
-      @pads = current_user.pads.includes(:frames)
+      if current_user.admin?
+        @pads = Pad.all
+      else
+        @pads = Pad.all
+                  .where(user_id: current_user.id)
+                  .includes(:frames)
+      end
+      PadSerializer.new(@pads).serializable_hash
     end
 
     # Only allow a list of trusted parameters through.
